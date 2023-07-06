@@ -1,10 +1,17 @@
 package foo.guilherme.webnovel.model;
 
-import java.util.Date;
-import java.util.UUID;
+import foo.guilherme.webnovel.dto.user.CreateUserDto;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity(name = "_user")
 public class User {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String username;
     private String password;
     private String email;
@@ -14,18 +21,16 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.id = String.valueOf(UUID.randomUUID());
     }
 
     public User() {
-        this.id = String.valueOf(UUID.randomUUID());
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -59,5 +64,15 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    static public User of(CreateUserDto data) {
+        User user = new User();
+        user.setEmail(data.email);
+        user.setName(data.name);
+        user.setPassword(data.password);
+        user.setUsername(data.username);
+
+        return user;
     }
 }
